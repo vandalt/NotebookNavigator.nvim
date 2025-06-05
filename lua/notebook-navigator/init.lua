@@ -285,30 +285,24 @@ M.config = {
 ---@usage `require('cell-navigator').setup({})` (replace `{}` with your `config` table)
 ---    any config parameter which you not pass will take on its default value.
 M.setup = function(config)
-  vim.validate({ config = { config, "table", true } })
+  vim.validate("config", config, "table", true)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
 
-  vim.validate({
-    cell_markers = { M.config.cell_markers, "table" },
-    activate_hydra_keys = { M.config.activate_hydra_keys, "string", true },
-    show_hydra_hint = { M.config.show_hydra_hint, "boolean" },
-    hydra_keys = { M.config.hydra_keys, "table" },
-  })
+  vim.validate("cell_markers",  M.config.cell_markers, "table")
+  vim.validate("activate_hydra_keys",  M.config.activate_hydra_keys, "string", true)
+  vim.validate("show_hydra_hint",  M.config.show_hydra_hint, "boolean")
+  vim.validate("hydra_keys",  M.config.hydra_keys, "table")
 
-  vim.validate({
-    ["config.hydra_keys.comment"] = { M.config.hydra_keys.comment, "string" },
-    ["config.hydra_keys.run"] = { M.config.hydra_keys.run, "string" },
-    ["config.hydra_keys.run_and_move"] = { M.config.hydra_keys.run_and_move, "string" },
-    ["config.hydra_keys.move_up"] = { M.config.hydra_keys.move_up, "string" },
-    ["config.hydra_keys.move_down"] = { M.config.hydra_keys.move_down, "string" },
-    ["config.hydra_keys.add_cell_before"] = { M.config.hydra_keys.add_cell_before, "string" },
-    ["config.hydra_keys.add_cell_after"] = { M.config.hydra_keys.add_cell_after, "string" },
-  })
+  vim.validate("config.hydra_keys.comment", M.config.hydra_keys.comment, "string")
+  vim.validate("config.hydra_keys.run", M.config.hydra_keys.run, "string")
+  vim.validate("config.hydra_keys.run_and_move", M.config.hydra_keys.run_and_move, "string")
+  vim.validate("config.hydra_keys.move_up", M.config.hydra_keys.move_up, "string")
+  vim.validate("config.hydra_keys.move_down",  M.config.hydra_keys.move_down, "string")
+  vim.validate("config.hydra_keys.add_cell_before",  M.config.hydra_keys.add_cell_before, "string")
+  vim.validate("config.hydra_keys.add_cell_after",  M.config.hydra_keys.add_cell_after, "string")
 
   for ft, marker in pairs(M.config.cell_markers) do
-    vim.validate({
-      ["config.cell_markers." .. ft] = { marker, "string" },
-    })
+    vim.validate("config.cell_markers." .. ft,  marker, "string")
   end
 
   if (not got_hydra) and (M.config.activate_hydra_keys ~= nil) then
