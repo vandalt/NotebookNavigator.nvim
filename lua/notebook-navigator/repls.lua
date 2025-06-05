@@ -16,9 +16,11 @@ end
 repls.toggleterm = function(start_line, end_line, repl_args, cell_marker)
   local id = 1
   local trim_spaces = false
+  local use_bracketed_paste = false
   if repl_args then
     id = repl_args.id or 1
     trim_spaces = (repl_args.trim_spaces == nil) or repl_args.trim_spaces
+    use_bracketed_paste = (repl_args.use_bracketed_paste == nil) or repl_args.use_bracketed_paste
   end
   local current_window = vim.api.nvim_get_current_win()
   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
@@ -27,10 +29,22 @@ repls.toggleterm = function(start_line, end_line, repl_args, cell_marker)
     return
   end
 
-  for _, line in ipairs(lines) do
-    local l = trim_spaces and line:gsub("^%s+", ""):gsub("%s+$", "") or line
-    require("toggleterm").exec(l, id)
+  -- NOTE: Requires https://github.com/akinsho/toggleterm.nvim/pull/591
+  if use_bracketed_paste then
+    if trim_spaces then
+      for i, line in ipairs(lines) do
+        lines[i] = line:gsub("^%s+", ""):gsub("%s+$", "")
+      end
+    end
+    local lines_str = table.concat(lines, "\n")
+    require("toggleterm").exec(lines_str, id, nil, nil, nil, nil, nil, nil, use_bracketed_paste)
+  else
+    for _, line in ipairs(lines) do
+      local l = trim_spaces and line:gsub("^%s+", ""):gsub("%s+$", "") or line
+      require("toggleterm").exec(l, id, nil, nil, nil, nil, nil, nil, use_bracketed_paste)
+    end
   end
+
 
   -- Jump back with the cursor where we were at the beginning of the selection
   local cursor_line, cursor_col = unpack(vim.api.nvim_win_get_cursor(0))
