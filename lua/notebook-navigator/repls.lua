@@ -78,6 +78,10 @@ repls.no_repl = function(_) end
 
 local get_repl = function(repl_provider)
   local available_repls = utils.available_repls
+  if #available_repls == 0 then
+    vim.notify("[NotebookNavigator] No supported REPLs available.\nMost functionality will error out.")
+    return nil
+  end
   local chosen_repl = nil
   if repl_provider == "auto" then
     for _, r in ipairs(available_repls) do

@@ -309,9 +309,7 @@ M.setup = function(config)
     vim.notify "[NotebookNavigator] Hydra is not available.\nHydra will not be available."
   end
 
-  if #utils.available_repls == 0 then
-    vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
-  elseif
+  if
     M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
   then
     vim.notify("[NotebookNavigator] The requested repl (" .. M.config.repl_provider .. ") is not available.")
