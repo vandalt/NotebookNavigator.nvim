@@ -176,8 +176,9 @@ to `false`. See issue for more details.
 
 ## Dependencies
 The currently supported REPLs are:
-- [iron.nvim](https://github.com/Vigemus/iron.nvim),
-- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) or
+- [iron.nvim](https://github.com/Vigemus/iron.nvim)
+- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
+  - Use [PR 591](https://github.com/akinsho/toggleterm.nvim/pull/591) to use the `use_bracketed_paste` in the `repl_args`.
 - [molten-nvim](https://github.com/benlubas/molten-nvim)
 
 The latter are automatically detected. Support for others like `conjure`
