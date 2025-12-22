@@ -1,5 +1,7 @@
 # 🚢 Notebook Navigator 🚢
 
+> **Note**: This is a fork of the original [NotebookNavigator.nvim](https://github.com/GCBallesteros/NotebookNavigator.nvim) repository, which currently seems unmaintained. This fork is maintained to continue development and provide bug fixes.
+
 Notebook Navigator lets you manipulate and send code cells to a REPL.
 
 A great feature that comes on by default with VSCode is the ability to define
@@ -36,6 +38,7 @@ and the next cell marker or the end of the buffer. The first line of a buffer ha
 implicit cell marker before it.
 
 For example here are a bunch of cells on a Python script
+
 ```python
 print("Cell 1")
 # %%
@@ -52,6 +55,7 @@ Navigator.
 I personally like to have the moving between cell commands and cell executing functions
 available through leader keymaps but will turn to the Hydra head when many cells need to
 be run (just by smashing `x`) or for less commonly used functionality.
+
 ```lua
 {
   "GCBallesteros/NotebookNavigator.nvim",
@@ -77,10 +81,10 @@ be run (just by smashing `x`) or for less commonly used functionality.
 ```
 
 ## Enabling Mini.hipatterns cell highlighting
-The lines delimiting the code cells can have pretty highlighting if you install 
+The lines delimiting the code cells can have pretty highlighting if you install
 [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns). To activate them you will
 have to add an entry into the `highlighters` option of 'mini.hipatterns'. If you are using
-[lazy.nvim](https//www.github.com/folke/lazy.nvim) `minihipatterns_spec` and your __only__
+[lazy.nvim](https//www.github.com/folke/lazy.nvim) `minihipatterns_spec` and your **only**
 configuration was meant to activate cell highlighting then your 'mini.hipatterns' could
 look like:
 
@@ -104,8 +108,8 @@ more minimal just set the `syntax_highlight` option to `true`.
 
 ## Mini.ai integration
 The `miniai_spec` function is also a valid mini.ai textobject specification.
-All you need to do to add it is to add the `custom_textobjects`  to your 'mini.ai' setup. If you
-are using [layz.nvim](https://www.github.com/folke/lazy.nvim) and your __only__ configuration was
+All you need to do to add it is to add the `custom_textobjects` to your 'mini.ai' setup. If you
+are using [lazy.nvim](https://www.github.com/folke/lazy.nvim) and your **only** configuration was
 meant include the _code cell_ text object then your 'mini.ai' could look like:
 
 ```lua
@@ -125,6 +129,7 @@ return {
 
 ## Detailed configuration
 Any options that are not specified when calling `setup` will take on their default values.
+
 ```lua
 {
   -- Code cell marker. Cells start with the marker and end either at the beginning
@@ -191,7 +196,7 @@ Finally, 'mini.hipatterns' is also not a dependency but can provide line
 highlighting to distinguish cell markers from the rest of the text.
 
 ## Yanking/Deleting cells
-If you setup the mini.ai integration (see below) you can then do things like,
+If you set up the mini.ai integration (see below) you can then do things like,
 `dah` to delete a cell, `yih` to copy just the code or `vah` to select the full
 cell in visual mode. (y)ank, (d)elete and (v)isual also work while inside the
 Hydra mode!
@@ -205,8 +210,8 @@ as you take heed of the [advice given above](#current-limitations).
 
 - `move_cell(dir)`: Move up or done a cell in the `u`p or `d`own direction.
 - `run_cell(repl_args)`: Run the current cell. You may optionally pass a table
-of `repl_args` that will be forwarded to the repl. For the details of what is
-forwarded exactly and how it is used check `repls.lua` and look for your repl
+of `repl_args` that will be forwarded to the REPL. For the details of what is
+forwarded exactly and how it is used check `repls.lua` and look for your REPL
 provider.
 - `run_and_move(repl_args)`: Same as above but also move down to the next cell.
 - `swap_cell(dir)`: Swap the current cell with the cell above (`dir='u'`) or
@@ -220,7 +225,7 @@ below (`dir='d'`).
 - `add_cell_before`: Same as above (deprecated).
 - `split_cell`: Add a cell marker at the current line effectively splitting the
 cell.
-- `merge_cell`: Merge the current cell ith the one above (`dir='u'`) or below
+- `merge_cell`: Merge the current cell with the one above (`dir='u'`) or below
 (`dir='d'`)
 
 ## Related plugins
