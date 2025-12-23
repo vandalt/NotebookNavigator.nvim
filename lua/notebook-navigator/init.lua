@@ -214,7 +214,7 @@ local function activate_hydra(config)
       M.split_cell,
       { desc = "Split cell", nowait = true },
     },
-    { "q",     nil, { exit = true, nowait = true, desc = "exit" } },
+    { "q", nil, { exit = true, nowait = true, desc = "exit" } },
     { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
   }
 
