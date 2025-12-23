@@ -66,7 +66,6 @@ be run (just by smashing `x`) or for less commonly used functionality.
     { "<leader>x", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
   },
   dependencies = {
-    "echasnovski/mini.comment",
     "hkupty/iron.nvim", -- repl provider
     -- "akinsho/toggleterm.nvim", -- alternative repl provider
     -- "benlubas/molten-nvim", -- alternative repl provider
@@ -191,10 +190,10 @@ The currently supported REPLs are:
 The latter are automatically detected. Support for others like `conjure`
 or `yarepl` may be added if people want them or are willing to send in PRs.
 
-Commenting cells of code depends on an external plugin. Either
+Commenting cells of code works without any plugin for Neovim version 0.10 and later.
+However, if you have either
 [comment.nvim](https://github.com/numToStr/Comment.nvim) or
-[mini.comment](https://github.com/echasnovski/mini.comment) the two most
-popular choices by quite a bit. If you want support for more PRs are welcome.
+[mini.comment](https://github.com/echasnovski/mini.comment) installed, they will be used.
 
 'mini.ai' is not a dependency but if you want to use the provided
 textobject specification (highly recommended) you will then need to have it
