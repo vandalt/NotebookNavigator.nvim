@@ -17,18 +17,27 @@ commenters.mini_comment = function(cell_object)
   comment.toggle_lines(cell_object.from.line, cell_object.to.line)
 end
 
+-- builtin commenting
+commenters.builtin = function(cell_object)
+  -- Using the private module as gc normal mapping does not always work with hydra
+  require("vim._comment").toggle_lines(cell_object.from.line, cell_object.to.line)
+end
+
 -- no recognized comment plugin
 commenters.no_comments = function(_)
-  vim.notify "[Notebook Navigator] No supported comment plugin available"
+  vim.notify "[Notebook Navigator] No supported comment plugin or builtin commenting available"
 end
 
 local has_mini_comment, _ = pcall(require, "mini.comment")
 local has_comment_nvim, _ = pcall(require, "Comment.api")
+local has_builtin = vim.fn.has "nvim-0.10"
 local commenter
 if has_mini_comment then
   commenter = commenters["mini_comment"]
 elseif has_comment_nvim then
   commenter = commenters["comment_nvim"]
+elseif has_builtin then
+  commenter = commenters["builtin"]
 else
   commenter = commenters["no_comments"]
 end
