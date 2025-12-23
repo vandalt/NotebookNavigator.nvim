@@ -222,6 +222,7 @@ provider.
 below (`dir='d'`).
 - `run_all_cells(repl_args)`: Run all the file.
 - `run_cells_below(repl_args)`: Run the current cell and all of the ones below.
+- `run_cells_above(repl_args)`: Run the all cells above the current one.
 - `comment_cell`: Comment the code inside the current cell.
 - `add_cell_below`: Add a cell marker below the current cell.
 - `add_cell_after`: Same as above (deprecated).
