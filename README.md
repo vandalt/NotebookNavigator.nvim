@@ -70,7 +70,7 @@ be run (just by smashing `x`) or for less commonly used functionality.
     "hkupty/iron.nvim", -- repl provider
     -- "akinsho/toggleterm.nvim", -- alternative repl provider
     -- "benlubas/molten-nvim", -- alternative repl provider
-    "nvimtools/hydra.nvim",
+    "nvimtools/hydra.nvim", -- if you want to use hydra
   },
   event = "VeryLazy",
   config = function()
