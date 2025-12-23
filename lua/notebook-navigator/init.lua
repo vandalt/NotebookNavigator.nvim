@@ -221,13 +221,13 @@ local function activate_hydra(config)
   local hydra_config = {
     name = "NotebookNavigator",
     mode = { "n" },
-    config = {
+    config = vim.tbl_extend("force", {
       invoke_on_body = true,
       color = "pink",
       hint = { float_opts = { border = "rounded" } },
-    },
-    body = config.activate_hydra_keys,
+    }, config.hydra_config or {}),
     heads = active_hydra_heads,
+    body = config.activate_hydra_keys,
   }
   if config.show_hydra_hint then
     hydra_config.hint = hydra_hint
@@ -251,6 +251,8 @@ M.config = {
 
   -- If not `nil` the keymap defined in the string will activate the hydra head
   activate_hydra_keys = nil,
+  -- Optional `config` table for the Hydra head
+  hydra_config = nil,
   -- If `true` a hint panel will be shown when the hydra head is active
   show_hydra_hint = true,
   -- Mappings while the hydra head is active.
@@ -267,6 +269,8 @@ M.config = {
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
   -- or "auto" which checks which of the above are installed
+  -- installed
+  -- (start_line, end_line, repl_args, cell_marker) -> boolean (success)
   repl_provider = "auto",
   -- Syntax based highlighting. If you don't want to install mini.hipattners or
   -- enjoy a more minimalistic look
@@ -288,21 +292,22 @@ M.setup = function(config)
   vim.validate("config", config, "table", true)
   M.config = vim.tbl_deep_extend("force", M.config, config or {})
 
-  vim.validate("cell_markers",  M.config.cell_markers, "table")
-  vim.validate("activate_hydra_keys",  M.config.activate_hydra_keys, "string", true)
-  vim.validate("show_hydra_hint",  M.config.show_hydra_hint, "boolean")
-  vim.validate("hydra_keys",  M.config.hydra_keys, "table")
+  vim.validate("cell_markers", M.config.cell_markers, "table")
+  vim.validate("activate_hydra_keys", M.config.activate_hydra_keys, "string", true)
+  vim.validate("hydra_config", M.config.hydra_config, { "table" }, true)
+  vim.validate("show_hydra_hint", M.config.show_hydra_hint, "boolean")
+  vim.validate("hydra_keys", M.config.hydra_keys, "table")
 
   vim.validate("config.hydra_keys.comment", M.config.hydra_keys.comment, "string")
   vim.validate("config.hydra_keys.run", M.config.hydra_keys.run, "string")
   vim.validate("config.hydra_keys.run_and_move", M.config.hydra_keys.run_and_move, "string")
   vim.validate("config.hydra_keys.move_up", M.config.hydra_keys.move_up, "string")
-  vim.validate("config.hydra_keys.move_down",  M.config.hydra_keys.move_down, "string")
-  vim.validate("config.hydra_keys.add_cell_before",  M.config.hydra_keys.add_cell_before, "string")
-  vim.validate("config.hydra_keys.add_cell_after",  M.config.hydra_keys.add_cell_after, "string")
+  vim.validate("config.hydra_keys.move_down", M.config.hydra_keys.move_down, "string")
+  vim.validate("config.hydra_keys.add_cell_before", M.config.hydra_keys.add_cell_before, "string")
+  vim.validate("config.hydra_keys.add_cell_after", M.config.hydra_keys.add_cell_after, "string")
 
   for ft, marker in pairs(M.config.cell_markers) do
-    vim.validate("config.cell_markers." .. ft,  marker, "string")
+    vim.validate("config.cell_markers." .. ft, marker, "string")
   end
 
   if (not got_hydra) and (M.config.activate_hydra_keys ~= nil) then
@@ -310,7 +315,9 @@ M.setup = function(config)
   end
 
   if
-    M.config.repl_provider ~= "auto" and not utils.has_value(utils.available_repls, M.config.repl_provider)
+    M.config.repl_provider ~= "auto"
+    and type(M.config.repl_provider) == "string"
+    and not utils.has_value(utils.available_repls, M.config.repl_provider)
   then
     vim.notify("[NotebookNavigator] The requested repl (" .. M.config.repl_provider .. ") is not available.")
   end
