@@ -162,6 +162,7 @@ end
 local hydra_hint = [[
  _j_/_k_: move down/up   _c_: comment     _a_/_b_: add cell above/below
 _x_: run & move down  _s_: split cell   _X_: run
+ _J_/_K_: swap down/up  _m_/_M_: merge with cell above/below
                     _<esc>_/_q_: exit
 ]]
 
@@ -213,6 +214,34 @@ local function activate_hydra(config)
       config.hydra_keys.split_cell,
       M.split_cell,
       { desc = "Split cell", nowait = true },
+    },
+    {
+      config.hydra_keys.swap_up,
+      function()
+        M.swap_cell "u"
+      end,
+      { desc = "Swap with cell above", nowait = true },
+    },
+    {
+      config.hydra_keys.swap_down,
+      function()
+        M.swap_cell "d"
+      end,
+      { desc = "Swap with cell below", nowait = true },
+    },
+    {
+      config.hydra_keys.merge_up,
+      function()
+        M.merge_cell "u"
+      end,
+      { desc = "Merge with cell above", nowait = true },
+    },
+    {
+      config.hydra_keys.merge_down,
+      function()
+        M.merge_cell "d"
+      end,
+      { desc = "Merge with cell below", nowait = true },
     },
     { "q", nil, { exit = true, nowait = true, desc = "exit" } },
     { "<esc>", nil, { exit = true, nowait = true, desc = "exit" } },
@@ -272,6 +301,10 @@ M.config = {
     add_cell_before = "a",
     add_cell_after = "b",
     split_cell = "s",
+    swap_up = "K",
+    swap_down = "J",
+    merge_up = "m",
+    merge_down = "M",
   },
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
