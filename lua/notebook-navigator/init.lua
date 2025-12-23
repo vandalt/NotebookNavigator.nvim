@@ -225,13 +225,9 @@ local function activate_hydra(config)
       invoke_on_body = true,
       color = "pink",
       hint = { float_opts = { border = "rounded" } },
-      -- TODO: Make sure these are clearly specified in README and config
-      -- TODO: Where is config.hydra defined?
-      buffer = config.buffer,
-      desc = config.desc,
-    }, config.hydra),
-    body = config.activate_hydra_keys,
+    }, config.hydra_config or {}),
     heads = active_hydra_heads,
+    body = config.activate_hydra_keys,
   }
   if config.show_hydra_hint then
     hydra_config.hint = hydra_hint
@@ -255,6 +251,8 @@ M.config = {
 
   -- If not `nil` the keymap defined in the string will activate the hydra head
   activate_hydra_keys = nil,
+  -- Optional `config` table for the Hydra head
+  hydra_config = nil,
   -- If `true` a hint panel will be shown when the hydra head is active
   show_hydra_hint = true,
   -- Mappings while the hydra head is active.
@@ -296,6 +294,7 @@ M.setup = function(config)
 
   vim.validate("cell_markers", M.config.cell_markers, "table")
   vim.validate("activate_hydra_keys", M.config.activate_hydra_keys, "string", true)
+  vim.validate("hydra_config", M.config.hydra_config, { "table" }, true)
   vim.validate("show_hydra_hint", M.config.show_hydra_hint, "boolean")
   vim.validate("hydra_keys", M.config.hydra_keys, "table")
 
