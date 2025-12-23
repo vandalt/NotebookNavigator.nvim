@@ -155,6 +155,7 @@ end
 local hydra_hint = [[
  _j_/_k_: move down/up   _c_: comment     _a_/_b_: add cell above/below
 _x_: run & move down  _s_: split cell   _X_: run
+ _J_/_K_: swap down/up  _m_/_M_: merge with cell above/below
                     _<esc>_/_q_: exit
 ]]
 
@@ -291,10 +292,10 @@ M.config = {
     add_cell_before = "a",
     add_cell_after = "b",
     split_cell = "s",
-    swap_up = "nil",
-    swap_down = "nil",
-    merge_up = "nil",
-    merge_down = "nil",
+    swap_up = "K",
+    swap_down = "J",
+    merge_up = "m",
+    merge_down = "M",
   },
   -- The repl plugin with which to interface
   -- Current options: "iron" for iron.nvim, "toggleterm" for toggleterm.nvim,
