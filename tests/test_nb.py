@@ -10,6 +10,7 @@ def afun(a):
     else:
         print("Non-zero")
 
+    print("allo")
 
 # %%
 # Test
