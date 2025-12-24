@@ -45,7 +45,6 @@ repls.toggleterm = function(start_line, end_line, repl_args, cell_marker)
     end
   end
 
-
   -- Jump back with the cursor where we were at the beginning of the selection
   local cursor_line, cursor_col = unpack(vim.api.nvim_win_get_cursor(0))
   vim.api.nvim_set_current_win(current_window)
@@ -60,16 +59,23 @@ end
 repls.molten = function(start_line, end_line, repl_args, cell_marker)
   local line_count = vim.api.nvim_buf_line_count(0)
 
+  -- If we're at the end of the file, we need to add a newline for molten to run everything
+  local added_line = false
   if line_count < (end_line + 1) then
-    vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, { cell_marker, "" })
+    added_line = true
+    vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, false, { "" })
   end
 
-  local ok, _ = pcall(vim.fn.MoltenEvaluateRange, start_line, end_line + 1)
-  if not ok then
-    vim.cmd "MoltenInit"
-    return false
+  -- Molten will evaluate the given lines, and prompt for a kernel if MoltenInit has not been run
+  vim.fn.MoltenEvaluateRange(start_line, end_line + 1)
+  if added_line then
+    -- If we had added a line we try to remove it.
+    -- This works most of the time, but not when MoltenEvaluateRange prompts for a kernel...
+    -- I could not find a way to make both work so this seems like a good compromise
+    vim.schedule(function()
+      vim.api.nvim_buf_set_lines(0, end_line, end_line + 2, false, {})
+    end)
   end
-
   return true
 end
 
@@ -79,7 +85,7 @@ repls.no_repl = function(_) end
 local get_repl = function(repl_provider)
   local available_repls = utils.available_repls
   if type(repl_provider) ~= "function" and #available_repls == 0 then
-    vim.notify("[NotebookNavigator] No supported REPLs available.\nMost functionality will error out.")
+    vim.notify "[NotebookNavigator] No supported REPLs available.\nMost functionality will error out."
     return nil
   end
 
