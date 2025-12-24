@@ -257,7 +257,7 @@ local function activate_hydra(config)
   local hydra_config = {
     name = "NotebookNavigator",
     mode = { "n" },
-    config = vim.tbl_extend("force", {
+    config = vim.tbl_deep_extend("force", {
       invoke_on_body = true,
       color = "pink",
       hint = { float_opts = { border = "rounded" } },
